@@ -1,6 +1,6 @@
 {
   "name": "iconify-json-nucleo-micro-bold",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Nucleo micro-bold icons as an Iconify icon set (prefix \"nucleo-micro-bold\")",
   "license": "MIT",
   "main": "./index.js",
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@iconify/types": "^2.0.0",
-    "iconify-json-nucleo-codegen": "^0.0.0",
+    "iconify-json-nucleo-codegen": "^0.1.0",
     "nucleo-micro-bold": "^1.0.0"
   },
   "publishConfig": {
