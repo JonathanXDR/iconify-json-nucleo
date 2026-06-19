@@ -1,0 +1,40 @@
+name: Release
+
+# Manual trigger only. Publishing the codegen and family packages is an
+# explicit decision rather than a side effect of pushing to main. The
+# family packages ship without icon data, the licensed SVG payload is
+# generated on the consumer's machine from the official Nucleo packages.
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      HUSKY: 0
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - run: npm install --global npm@latest
+      - run: bun install --frozen-lockfile
+      - run: bun run format:check
+      - run: bun run lint
+      - run: bun run typecheck
+      - run: bun run sync:check
+      - run: bun run build:codegen
+      - run: bun test
+      - name: Publish codegen and family packages
+        run: bun run scripts/publish.ts
