@@ -1,0 +1,56 @@
+{
+  "name": "iconify-json-nucleo-social-media",
+  "version": "0.0.0",
+  "description": "Nucleo social-media icons as an Iconify icon set (prefix \"nucleo-social-media\")",
+  "license": "MIT",
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.js"
+    },
+    "./icons.json": "./icons.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "index.js",
+    "index.mjs",
+    "index.d.ts",
+    "postinstall.mjs"
+  ],
+  "scripts": {
+    "postinstall": "node postinstall.mjs",
+    "build": "node postinstall.mjs"
+  },
+  "dependencies": {
+    "@iconify/types": "^2.0.0",
+    "iconify-json-nucleo-codegen": "^0.0.0",
+    "nucleo-social-media": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonathanXDR/iconify-json-nucleo.git",
+    "directory": "packages/families/social-media"
+  },
+  "homepage": "https://github.com/JonathanXDR/iconify-json-nucleo/tree/main/packages/families/social-media#readme",
+  "bugs": {
+    "url": "https://github.com/JonathanXDR/iconify-json-nucleo/issues"
+  },
+  "author": "Jonathan Russ",
+  "keywords": [
+    "iconify",
+    "icons",
+    "svg",
+    "nucleo",
+    "social-media"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}

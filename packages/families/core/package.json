@@ -1,0 +1,61 @@
+{
+  "name": "iconify-json-nucleo-core",
+  "version": "0.0.0",
+  "description": "Nucleo core icons as an Iconify icon set (prefix \"nucleo-core\")",
+  "license": "MIT",
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.js"
+    },
+    "./icons.json": "./icons.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "index.js",
+    "index.mjs",
+    "index.d.ts",
+    "postinstall.mjs"
+  ],
+  "scripts": {
+    "postinstall": "node postinstall.mjs",
+    "build": "node postinstall.mjs"
+  },
+  "dependencies": {
+    "@iconify/types": "^2.0.0",
+    "iconify-json-nucleo-codegen": "^0.0.0",
+    "nucleo-core-outline-24": "^1.0.0",
+    "nucleo-core-outline-32": "^1.0.0",
+    "nucleo-core-outline-48": "^1.0.0",
+    "nucleo-core-fill-24": "^1.0.0",
+    "nucleo-core-fill-32": "^1.0.0",
+    "nucleo-core-fill-48": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonathanXDR/iconify-json-nucleo.git",
+    "directory": "packages/families/core"
+  },
+  "homepage": "https://github.com/JonathanXDR/iconify-json-nucleo/tree/main/packages/families/core#readme",
+  "bugs": {
+    "url": "https://github.com/JonathanXDR/iconify-json-nucleo/issues"
+  },
+  "author": "Jonathan Russ",
+  "keywords": [
+    "iconify",
+    "icons",
+    "svg",
+    "nucleo",
+    "core"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}
