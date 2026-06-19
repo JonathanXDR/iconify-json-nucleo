@@ -1,0 +1,55 @@
+{
+  "name": "iconify-json-nucleo-codegen",
+  "version": "0.0.0",
+  "description": "Render Nucleo React icon packages into Iconify icon sets on the consumer's machine",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "iconify-json-nucleo-codegen": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "bun build ./src/index.ts ./src/cli.ts --outdir dist --target node --format esm --packages external && tsc -p tsconfig.build.json && chmod +x ./dist/cli.js && bun run verify:dist",
+    "verify:dist": "node --input-type=module -e \"import('./dist/index.js').then((m) => { if (typeof m.buildFamily !== 'function' || !Array.isArray(m.FAMILIES)) { throw new Error('built dist/index.js is missing expected exports'); } })\""
+  },
+  "dependencies": {
+    "@iconify/tools": "^5.0.12",
+    "@iconify/types": "^2.0.0",
+    "@iconify/utils": "^3.1.3",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
+    "zod": "^4.4.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonathanXDR/iconify-json-nucleo.git",
+    "directory": "packages/codegen"
+  },
+  "homepage": "https://github.com/JonathanXDR/iconify-json-nucleo/tree/main/packages/codegen#readme",
+  "bugs": {
+    "url": "https://github.com/JonathanXDR/iconify-json-nucleo/issues"
+  },
+  "author": "Jonathan Russ",
+  "keywords": [
+    "iconify",
+    "icons",
+    "svg",
+    "nucleo",
+    "codegen"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}
