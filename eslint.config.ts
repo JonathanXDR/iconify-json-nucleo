@@ -1,23 +1,22 @@
 import eslint from '@eslint/js';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
-  {
-    ignores: [
-      '**/node_modules/**',
-      '**/dist/**',
-      '**/icons.json',
-      'packages/families/**/index.js',
-      'packages/families/**/index.mjs',
-      'packages/families/**/postinstall.mjs',
-    ],
-  },
+export default defineConfig(
+  globalIgnores(['**/node_modules/**', '**/dist/**', '**/icons.json', 'packages/families/**']),
   eslint.configs.recommended,
-  ...tseslint.configs.recommended,
+  ...tseslint.configs.strictTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
   {
     languageOptions: {
       globals: { ...globals.node },
+      parserOptions: {
+        projectService: {
+          allowDefaultProject: ['eslint.config.ts', 'commitlint.config.ts'],
+        },
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
   },
   {
@@ -29,6 +28,17 @@ export default tseslint.config(
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
+      '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
+    },
+  },
+  {
+    files: ['**/*.test.ts'],
+    rules: {
+      // bun:test types its rejection matchers (.rejects.toThrow) as returning
+      // void, yet they must be awaited so the assertion settles. Awaiting them
+      // is correct at runtime, so these type-aware checks do not apply here.
+      '@typescript-eslint/await-thenable': 'off',
+      '@typescript-eslint/no-confusing-void-expression': 'off',
     },
   },
 );
