@@ -11,8 +11,8 @@ const LICENSE_HINT =
 async function familyFromPackageJson(dir: string): Promise<string | undefined> {
   try {
     const raw = await readFile(join(dir, 'package.json'), 'utf8');
-    const name = (JSON.parse(raw) as { name?: string }).name ?? '';
-    const match = name.match(/iconify-json-nucleo-(.+)$/);
+    const name = (JSON.parse(raw) as { name?: unknown }).name;
+    const match = typeof name === 'string' ? /iconify-json-nucleo-(.+)$/.exec(name) : null;
     return match?.[1];
   } catch {
     return undefined;
