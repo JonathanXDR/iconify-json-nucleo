@@ -1,3 +1,13 @@
+## [0.2.0](https://github.com/JonathanXDR/iconify-json-nucleo/compare/v0.1.0...v0.2.0) (2026-06-20)
+
+### Features
+
+* **codegen:** add icon set metadata and broaden svg path compatibility ([246666e](https://github.com/JonathanXDR/iconify-json-nucleo/commit/246666e28e9d17c46fe35e1360ce605aec587e5a))
+
+### Bug Fixes
+
+* **codegen:** skip malformed icons instead of aborting the family build ([778238d](https://github.com/JonathanXDR/iconify-json-nucleo/commit/778238dc57fab87dcfc2ad29bab5d63be4f4c140))
+
 ## 0.1.0 (2026-06-19)
 
 ### Features

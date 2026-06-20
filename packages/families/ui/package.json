@@ -1,6 +1,6 @@
 {
   "name": "iconify-json-nucleo-ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Nucleo ui icons as an Iconify icon set (prefix \"nucleo-ui\")",
   "license": "MIT",
   "main": "./index.js",
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@iconify/types": "^2.0.0",
-    "iconify-json-nucleo-codegen": "^0.1.0",
+    "iconify-json-nucleo-codegen": "^0.2.0",
     "nucleo-ui-outline-12": "^1.0.0",
     "nucleo-ui-outline-18": "^1.0.0",
     "nucleo-ui-fill-12": "^1.0.0",
