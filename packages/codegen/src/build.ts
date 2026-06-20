@@ -48,7 +48,7 @@ export async function buildFamily(
   }
 
   const json = convert(icons, family);
-  return { prefix: family.prefix, iconCount: icons.length, json };
+  return { prefix: family.prefix, iconCount: Object.keys(json.icons).length, json };
 }
 
 export async function writeIconSet(json: IconifyJSON, outputDir: string): Promise<string> {
