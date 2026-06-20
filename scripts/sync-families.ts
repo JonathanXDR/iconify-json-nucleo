@@ -1,14 +1,13 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { FAMILIES, type Family } from '../packages/codegen/src/manifest';
+import { readPackageJson } from './read-package-json';
 
 const ROOT = join(import.meta.dir, '..');
 const FAMILIES_DIR = join(ROOT, 'packages', 'families');
 const CODEGEN = 'iconify-json-nucleo-codegen';
 
-const codegenVersion = JSON.parse(
-  await readFile(join(ROOT, 'packages', 'codegen', 'package.json'), 'utf8'),
-).version as string;
+const codegenVersion = readPackageJson(join(ROOT, 'packages', 'codegen', 'package.json')).version;
 
 function packageJson(family: Family): string {
   const dependencies: Record<string, string> = {

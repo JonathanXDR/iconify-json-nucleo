@@ -15,20 +15,30 @@ jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
+      issues: write
+      pull-requests: write
       id-token: write
     env:
       HUSKY: 0
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+      # Do not add registry-url here and do not set NPM_TOKEN anywhere in this
+      # workflow. Either one writes an .npmrc auth placeholder that shadows OIDC
+      # trusted publishing and breaks the token-less publish.
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          registry-url: https://registry.npmjs.org
-      - run: npm install --global npm@latest
+      # Trusted publishing (OIDC) needs npm 11.5.1 or newer. Pin to major 11 so
+      # a future npm release cannot change the publish path under us, and print
+      # the resolved version so the logs assert it before publishing.
+      - run: npm install --global npm@^11.5.1
+      - run: npm --version
       - run: bun install --frozen-lockfile
       - run: bun run format:check
       - run: bun run lint
@@ -36,5 +46,7 @@ jobs:
       - run: bun run sync:check
       - run: bun run build:codegen
       - run: bun test
-      - name: Publish codegen and family packages
-        run: bun run scripts/publish.ts
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
