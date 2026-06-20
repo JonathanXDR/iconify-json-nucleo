@@ -5,18 +5,8 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, describe, expect, test } from 'bun:test';
 import type { IconifyJSON } from '@iconify/types';
-import { buildFamily, writeIconSet, type PackageResolver } from '../src/build';
-import type { Family } from '../src/manifest';
-
-const resolver: PackageResolver = (pkg) => new URL(`./fixtures/${pkg}.tsx`, import.meta.url).href;
-
-const coreLike: Family = {
-  family: 'core',
-  color: 'monochrome',
-  packages: ['outline-24', 'fill-24'],
-  prefix: 'nucleo-core',
-  packageName: 'iconify-json-nucleo-core',
-};
+import { buildFamily, writeIconSet } from '../src/build';
+import { coreLike, fixtureResolver } from './helpers';
 
 const generatedFamily = fileURLToPath(new URL('../../families/core/', import.meta.url));
 const workdir = await mkdtemp(join(tmpdir(), 'iconify-json-nucleo-entry-'));
@@ -27,7 +17,7 @@ afterAll(async () => {
 
 describe('generated family entrypoints', () => {
   test('expose the icon set through both ESM and CommonJS once icons.json exists', async () => {
-    const { json } = await buildFamily(coreLike, { resolve: resolver });
+    const { json } = await buildFamily(coreLike, { resolve: fixtureResolver });
     await writeIconSet(json, workdir);
     await cp(join(generatedFamily, 'index.mjs'), join(workdir, 'index.mjs'));
     await cp(join(generatedFamily, 'index.js'), join(workdir, 'index.js'));
