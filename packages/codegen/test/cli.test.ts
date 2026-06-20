@@ -5,8 +5,8 @@ const cli = new URL('../src/cli.ts', import.meta.url).pathname;
 async function runCli(args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
   const proc = Bun.spawn(['bun', cli, ...args], { stdout: 'pipe', stderr: 'pipe' });
   const [stdout, stderr, code] = await Promise.all([
-    new Response(proc.stdout).text(),
-    new Response(proc.stderr).text(),
+    proc.stdout.text(),
+    proc.stderr.text(),
     proc.exited,
   ]);
   return { code, stdout, stderr };
