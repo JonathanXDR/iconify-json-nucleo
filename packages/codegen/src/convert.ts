@@ -1,8 +1,29 @@
-import { blankIconSet, cleanupSVG, isEmptyColor, parseColors, runSVGO, SVG } from '@iconify/tools';
-import type { IconifyJSON } from '@iconify/types';
-import { quicklyValidateIconSet } from '@iconify/utils';
+import {
+  blankIconSet,
+  cleanupSVG,
+  deOptimisePaths,
+  isEmptyColor,
+  parseColors,
+  runSVGO,
+  SVG,
+} from '@iconify/tools';
+import type { IconifyInfo, IconifyJSON } from '@iconify/types';
+import { validateIconSet } from '@iconify/utils';
 import type { Family } from './manifest';
 import type { RenderedIcon } from './render';
+
+function iconSetInfo(family: Family): IconifyInfo {
+  const label = family.family
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+  return {
+    name: `Nucleo ${label}`,
+    author: { name: 'Nucleo', url: 'https://nucleoapp.com' },
+    license: { title: 'Nucleo License', url: 'https://nucleoapp.com/license' },
+    palette: family.color === 'multicolor',
+  };
+}
 
 export function convert(icons: RenderedIcon[], family: Family): IconifyJSON {
   const iconSet = blankIconSet(family.prefix);
@@ -22,6 +43,9 @@ export function convert(icons: RenderedIcon[], family: Family): IconifyJSON {
       }
 
       runSVGO(svg);
+      // Re-expand the path arcs that SVGO compresses, so editors and older
+      // renderers that cannot parse compact arcs still display the icons.
+      deOptimisePaths(svg);
       iconSet.fromSVG(name, svg);
     } catch (error) {
       // Some upstream Nucleo icons emit a dangling reference, such as a
@@ -38,15 +62,12 @@ export function convert(icons: RenderedIcon[], family: Family): IconifyJSON {
     );
   }
 
+  iconSet.info = iconSetInfo(family);
   const json = iconSet.export();
 
   if (Object.keys(json.icons).length === 0) {
     throw new Error(`No valid icons for "${family.prefix}", all ${icons.length} were skipped`);
   }
 
-  if (!quicklyValidateIconSet(json)) {
-    throw new Error(`Generated icon set for "${family.prefix}" failed Iconify validation`);
-  }
-
-  return json;
+  return validateIconSet(json);
 }
