@@ -47,7 +47,7 @@ export async function buildFamily(
     }
   }
 
-  const json = await convert(icons, family);
+  const json = convert(icons, family);
   return { prefix: family.prefix, iconCount: icons.length, json };
 }
 

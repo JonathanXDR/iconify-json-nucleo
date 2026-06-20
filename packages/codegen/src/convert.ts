@@ -4,7 +4,7 @@ import { quicklyValidateIconSet } from '@iconify/utils';
 import type { Family } from './manifest';
 import type { RenderedIcon } from './render';
 
-export async function convert(icons: RenderedIcon[], family: Family): Promise<IconifyJSON> {
+export function convert(icons: RenderedIcon[], family: Family): IconifyJSON {
   const iconSet = blankIconSet(family.prefix);
 
   for (const { name, svg: markup } of icons) {
@@ -12,7 +12,7 @@ export async function convert(icons: RenderedIcon[], family: Family): Promise<Ic
     cleanupSVG(svg);
 
     if (family.color === 'monochrome') {
-      await parseColors(svg, {
+      parseColors(svg, {
         defaultColor: 'currentColor',
         callback: (_attr, _colorString, color) =>
           color !== null && isEmptyColor(color) ? color : 'currentColor',
