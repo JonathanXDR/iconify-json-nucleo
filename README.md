@@ -142,11 +142,15 @@ Repository tooling and scripts are TypeScript run by Bun (`eslint.config.ts`, `s
 
 ### Versioning
 
-The codegen and all family packages are versioned in lockstep. `scripts/sync-families.ts` stamps every family with the codegen version and pins the codegen dependency to it, so a release is a single version bump plus `bun run sync`. The family tarballs are static because the icon data is generated on install. Versions only change when the tooling or the manifest does.
+The codegen and all family packages are versioned in lockstep. semantic-release computes the next version from the Conventional Commits, `scripts/set-version.ts` stamps it onto the codegen package, and `bun run sync` propagates it to every family with a matching dependency pin. The family tarballs are static because the icon data is generated on install.
+
+While the project is pre 1.0, a breaking change commit still jumps straight to 1.0.0, because semantic-release does not hold breaking changes inside the 0.x range. Reserve breaking change syntax for the deliberate move to 1.0.
 
 ### Releasing
 
-Releases are manual. Trigger the **Release** workflow from the Actions tab. It verifies the codegen, then publishes the codegen and every family package to the public npm registry through [trusted publishing](https://docs.npmjs.com/trusted-publishers/), which authenticates with a short-lived OIDC token and attaches [npm provenance](https://docs.npmjs.com/generating-provenance-statements) automatically, so no token is stored. The family tarballs contain no icon data.
+Releases run through [semantic-release](https://semantic-release.gitbook.io/). Trigger the **Release** workflow from the Actions tab. It reads the [Conventional Commits](https://www.conventionalcommits.org/) since the last release, computes the next version, writes the changelog, tags the commit, creates the GitHub Release, and publishes the codegen and every family package to the public npm registry through [trusted publishing](https://docs.npmjs.com/trusted-publishers/) (OIDC), which attaches [npm provenance](https://docs.npmjs.com/generating-provenance-statements) automatically with no stored token. The family tarballs contain no icon data.
+
+The workflow only cuts a release when there is a `feat` or `fix` commit since the last release. Commits such as `chore`, `ci`, or `docs` make it exit without publishing.
 
 ## ⚖️ License
 
