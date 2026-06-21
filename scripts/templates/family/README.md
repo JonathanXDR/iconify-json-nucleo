@@ -1,0 +1,86 @@
+# {{packageName}}
+
+> Nucleo **{{family}}** icons as an [Iconify](https://iconify.design/) icon set.
+
+See the [workspace README](https://github.com/JonathanXDR/iconify-json-nucleo#readme) for the full picture.
+
+## 🚀 Install
+
+Set your `NUCLEO_LICENSE_KEY`, then install with your package manager.
+
+```bash
+export NUCLEO_LICENSE_KEY=your-license-key
+npm install {{packageName}}
+```
+
+For pnpm, Yarn, or Bun, use `pnpm add`, `yarn add`, or `bun add` instead. A postinstall renders the official Nucleo packages into `icons.json`. Every package needs Node.js 18 or newer.
+
+> [!IMPORTANT]
+> Many package managers block a dependency's postinstall script by default. If yours does, `icons.json` is not generated and importing the package fails. Use the table below to allow this package to build, or generate the set yourself with the codegen command.
+
+| Package manager | Runs by default | Enable the build |
+| --- | --- | --- |
+| npm | Yes, until npm v12 | From v12 (expected July 2026), run `npm approve-scripts {{packageName}}` |
+| pnpm 11 | No | Add `{{packageName}}: true` under `allowBuilds` in `pnpm-workspace.yaml`, or run `pnpm approve-builds` |
+| pnpm 10 | No | Add `{{packageName}}` to `pnpm.onlyBuiltDependencies` in `package.json`, or run `pnpm approve-builds` |
+| Yarn 4.14 and newer | No | Add `dependenciesMeta.{{packageName}}.built: true` to `package.json` |
+| Yarn Classic and Berry before 4.14 | Yes | Nothing needed |
+| Bun | No | Add `{{packageName}}` to `trustedDependencies` in `package.json`, or run `bun pm trust {{packageName}}` |
+
+To skip the postinstall, generate the set on demand:
+
+```bash
+npx {{codegen}} build --base node_modules/{{packageName}}
+```
+
+## 💻 Usage
+
+Every package ships as both ESM and CommonJS with bundled TypeScript types, so no separate `@types` package is needed. Register a set once with any Iconify consumer.
+
+```ts
+// ESM
+import { icons } from '{{packageName}}';
+import { addCollection } from '@iconify/react';
+
+addCollection(icons);
+```
+
+```js
+// CommonJS
+const { addCollection } = require('@iconify/react');
+const icons = require('{{packageName}}');
+
+addCollection(icons);
+```
+
+Then render icons by their `prefix:name`.
+
+```tsx
+<Icon icon="{{prefix}}:{{exampleIcon}}" />
+```
+
+With [`@iconify/tailwind`](https://iconify.design/docs/usage/css/tailwind/) the JSON is read straight from `node_modules`.
+
+```html
+<span class="icon-[{{prefix}}--{{exampleIcon}}]"></span>
+```
+
+Build tools that need the raw set can read it directly from the `{{packageName}}/icons.json` subpath export.
+
+## 🔐 License key
+
+The official Nucleo packages read `NUCLEO_LICENSE_KEY` from the environment in their preinstall and validate it against `nucleoapp.com` before any data is installed. This layer adds no license logic of its own. It simply depends on those packages, so a missing or invalid key fails the install upstream.
+
+```bash
+# Locally
+export NUCLEO_LICENSE_KEY=your-license-key
+
+# CI or Vercel
+# Expose NUCLEO_LICENSE_KEY as an environment variable to the install step.
+```
+
+## ⚖️ License
+
+The tooling and wrapper code in this repository is [MIT licensed](https://github.com/JonathanXDR/iconify-json-nucleo/blob/main/LICENSE).
+
+That license covers the code only. It grants no rights to Nucleo icons, which are a paid product owned by [Nucleo](https://nucleoapp.com) and governed by the [Nucleo license](https://nucleoapp.com/license). This repository contains no Nucleo icon data and must not be used to redistribute Nucleo assets. Generating and using the icons requires your own valid Nucleo license.

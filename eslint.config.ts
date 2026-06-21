@@ -4,7 +4,13 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig(
-  globalIgnores(['**/node_modules/**', '**/dist/**', '**/icons.json', 'packages/families/**']),
+  globalIgnores([
+    '**/node_modules/**',
+    '**/dist/**',
+    '**/icons.json',
+    'packages/families/**',
+    'scripts/templates/**',
+  ]),
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
