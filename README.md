@@ -140,15 +140,9 @@ Repository tooling and scripts are TypeScript run by Bun (`eslint.config.ts`, `s
 2. Run `bun run sync` to regenerate and format the family packages.
 3. Commit with a [Conventional Commit](https://www.conventionalcommits.org/) message.
 
-### Versioning
-
-The codegen and all family packages are versioned in lockstep. `bun run release` bumps the codegen version with [bumpp](https://github.com/antfu-collective/bumpp), then `bun run sync` propagates it to every family with a matching dependency pin. The family tarballs are static because the icon data is generated on install.
-
-While the project is pre 1.0, you choose the bump at release time, so reserve breaking changes for the deliberate move to 1.0.
-
 ### Releasing
 
-Cut a release locally with `bun run release`. [bumpp](https://github.com/antfu-collective/bumpp) prompts for the next version, bumps the codegen package, propagates it to the families through `bun run sync`, then commits, tags `vX.Y.Z`, and pushes. The tag triggers the **Release** workflow, which generates the GitHub Release from the [Conventional Commits](https://www.conventionalcommits.org/) since the last tag with [changelogithub](https://github.com/antfu/changelogithub), and publishes the codegen and every family package to the public npm registry through [trusted publishing](https://docs.npmjs.com/trusted-publishers/) (OIDC), which attaches [npm provenance](https://docs.npmjs.com/generating-provenance-statements) automatically with no stored token. The family tarballs contain no icon data.
+Cut a release with `bun run release`. It bumps the version, syncs the families, then commits, tags, and pushes. The tag triggers the Release workflow, which creates the GitHub Release from the Conventional Commits since the last tag and publishes the codegen and family packages to npm with provenance.
 
 ## ⚖️ License
 
