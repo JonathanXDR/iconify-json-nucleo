@@ -1,7 +1,7 @@
 {
   "name": "iconify-json-nucleo-credit-cards",
   "version": "0.2.0",
-  "description": "Nucleo credit-cards icons as an Iconify icon set (prefix \"nucleo-credit-cards\")",
+  "description": "Nucleo credit-cards icons as an Iconify icon set",
   "license": "MIT",
   "main": "./index.js",
   "module": "./index.mjs",

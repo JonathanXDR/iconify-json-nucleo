@@ -1,7 +1,7 @@
 {
   "name": "iconify-json-nucleo-ui",
   "version": "0.2.0",
-  "description": "Nucleo ui icons as an Iconify icon set (prefix \"nucleo-ui\")",
+  "description": "Nucleo ui icons as an Iconify icon set",
   "license": "MIT",
   "main": "./index.js",
   "module": "./index.mjs",

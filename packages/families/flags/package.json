@@ -1,7 +1,7 @@
 {
   "name": "iconify-json-nucleo-flags",
   "version": "0.2.0",
-  "description": "Nucleo flags icons as an Iconify icon set (prefix \"nucleo-flags\")",
+  "description": "Nucleo flags icons as an Iconify icon set",
   "license": "MIT",
   "main": "./index.js",
   "module": "./index.mjs",

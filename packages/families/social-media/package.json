@@ -1,7 +1,7 @@
 {
   "name": "iconify-json-nucleo-social-media",
   "version": "0.2.0",
-  "description": "Nucleo social-media icons as an Iconify icon set (prefix \"nucleo-social-media\")",
+  "description": "Nucleo social-media icons as an Iconify icon set",
   "license": "MIT",
   "main": "./index.js",
   "module": "./index.mjs",

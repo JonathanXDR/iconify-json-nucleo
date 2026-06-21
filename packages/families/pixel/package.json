@@ -1,7 +1,7 @@
 {
   "name": "iconify-json-nucleo-pixel",
   "version": "0.2.0",
-  "description": "Nucleo pixel icons as an Iconify icon set (prefix \"nucleo-pixel\")",
+  "description": "Nucleo pixel icons as an Iconify icon set",
   "license": "MIT",
   "main": "./index.js",
   "module": "./index.mjs",

@@ -1,7 +1,7 @@
 {
   "name": "iconify-json-nucleo-sharp",
   "version": "0.2.0",
-  "description": "Nucleo sharp icons as an Iconify icon set (prefix \"nucleo-sharp\")",
+  "description": "Nucleo sharp icons as an Iconify icon set",
   "license": "MIT",
   "main": "./index.js",
   "module": "./index.mjs",
