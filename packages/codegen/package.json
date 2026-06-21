@@ -1,6 +1,6 @@
 {
   "name": "iconify-json-nucleo-codegen",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Render Nucleo React icon packages into Iconify icon sets on the consumer's machine",
   "license": "MIT",
   "type": "module",
