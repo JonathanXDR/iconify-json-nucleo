@@ -1,4 +1,3 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { FAMILIES, type Family } from '../packages/codegen/src/manifest';
 import { readPackageJson } from './read-package-json';
@@ -31,13 +30,21 @@ const EXAMPLE_ICON: Record<string, string> = {
 // placeholders substituted. icons.json is generated on install, so it is not
 // listed here, and package.json is generated separately since its dependencies
 // are dynamic per family.
-const TEMPLATE_FILES = ['index.js', 'index.mjs', 'index.d.ts', 'postinstall.mjs', 'README.md'];
+const TEMPLATE_FILES = [
+  'index.js',
+  'index.mjs',
+  'index.d.ts',
+  'postinstall.mjs',
+  'README.md',
+] as const;
 
+// Replaces every {{token}} in a template with its value, throwing on a token
+// that has no matching variable so a typo fails the sync loudly.
 function render(template: string, vars: Record<string, string>): string {
-  return template.replace(/\{\{(\w+)\}\}/g, (_match, key: string) => {
-    const value = vars[key];
+  return template.replace(/\{\{(\w+)\}\}/g, (_match, token: string) => {
+    const value = vars[token];
     if (value === undefined) {
-      throw new Error(`Unknown template placeholder "{{${key}}}"`);
+      throw new Error(`Unknown template token "{{${token}}}"`);
     }
     return value;
   });
@@ -92,28 +99,32 @@ function packageJson(family: Family): string {
 }
 
 async function sync(): Promise<void> {
-  const templates = new Map<string, string>();
-  for (const file of TEMPLATE_FILES) {
-    templates.set(file, await readFile(join(TEMPLATES_DIR, file), 'utf8'));
-  }
+  const templates = await Promise.all(
+    TEMPLATE_FILES.map(async (file) => ({
+      file,
+      content: await Bun.file(join(TEMPLATES_DIR, file)).text(),
+    })),
+  );
 
-  for (const family of FAMILIES) {
-    const dir = join(FAMILIES_DIR, family.family);
-    await mkdir(dir, { recursive: true });
+  // Bun.write creates the parent directory, so each family writes in parallel
+  // with no separate mkdir step.
+  await Promise.all(
+    FAMILIES.map(async (family) => {
+      const dir = join(FAMILIES_DIR, family.family);
+      const vars: Record<string, string> = {
+        packageName: family.packageName,
+        family: family.family,
+        prefix: family.prefix,
+        codegen: CODEGEN,
+        exampleIcon: EXAMPLE_ICON[family.family] ?? 'heart',
+      };
 
-    const vars: Record<string, string> = {
-      packageName: family.packageName,
-      family: family.family,
-      prefix: family.prefix,
-      codegen: CODEGEN,
-      exampleIcon: EXAMPLE_ICON[family.family] ?? 'heart',
-    };
-
-    await writeFile(join(dir, 'package.json'), packageJson(family));
-    for (const [file, template] of templates) {
-      await writeFile(join(dir, file), render(template, vars));
-    }
-  }
+      await Promise.all([
+        Bun.write(join(dir, 'package.json'), packageJson(family)),
+        ...templates.map(({ file, content }) => Bun.write(join(dir, file), render(content, vars))),
+      ]);
+    }),
+  );
 
   console.log(`Synced ${FAMILIES.length} family packages into ${FAMILIES_DIR}.`);
 }
