@@ -7,7 +7,8 @@ const FAMILIES_DIR = join(ROOT, 'packages', 'families');
 const TEMPLATES_DIR = join(import.meta.dir, 'templates', 'family');
 const CODEGEN = 'iconify-json-nucleo-codegen';
 
-const codegenVersion = readPackageJson(join(ROOT, 'packages', 'codegen', 'package.json')).version;
+const codegenVersion = (await readPackageJson(join(ROOT, 'packages', 'codegen', 'package.json')))
+  .version;
 
 // Per-family example icon for the README usage snippet, verified against the
 // generated sets. social-media is a best guess, its upstream package cannot

@@ -1,4 +1,3 @@
-import { readFileSync } from 'node:fs';
 import { z } from 'zod';
 
 // Validates the fields the release scripts rely on while passing every other
@@ -10,6 +9,6 @@ const PackageJsonSchema = z.looseObject({
 
 export type PackageJson = z.infer<typeof PackageJsonSchema>;
 
-export function readPackageJson(path: string): PackageJson {
-  return PackageJsonSchema.parse(JSON.parse(readFileSync(path, 'utf8')));
+export async function readPackageJson(path: string): Promise<PackageJson> {
+  return PackageJsonSchema.parse(await Bun.file(path).json());
 }
