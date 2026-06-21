@@ -108,31 +108,31 @@ The families, prefixes, source packages, and color modes are declared once in [`
 
 ### Naming
 
-Names come straight from the Nucleo React component names. `IconHeartOutline24` becomes `heart-outline-24`, so a family's member packages, such as the six `nucleo-core-*` packages, merge into one prefix without collisions. The result is `heart-outline-24`, `heart-fill-48`, and so on. The transform lives in [`naming.ts`](./packages/codegen/src/naming.ts).
+Names come from the Nucleo React component names, so `IconHeartOutline24` becomes `heart-outline-24`. A family's source packages merge into one prefix without collisions. The transform lives in [`naming.ts`](./packages/codegen/src/naming.ts).
 
 ### Colors
 
-Monochrome families (`core`, `ui`, `sharp`, `micro-bold`, `pixel`) are normalized to `currentColor` so they inherit text color. Multicolor families (`flags`, `glass`, `isometric`, `social-media`, `credit-cards`, `arcade`) keep their literal colors. The flag is set per family in the manifest.
+Monochrome families are normalized to `currentColor` so they inherit text color, and multicolor families keep their literal colors. The mode is set per family in the manifest.
 
 ## 🛠️ Development
 
 ```bash
-bun install
-bun run build:codegen
-bun test
+bun install            # install the codegen and dev tooling
+bun run lint           # type-checked ESLint
+bun run typecheck      # type-check with tsc
+bun run build:codegen  # build the codegen package
+bun test               # run the pipeline tests
 ```
 
-`bun install` resolves only the codegen package and the dev tooling. The family packages are generated, publishable artifacts that depend on licensed packages, so they are deliberately not part of the installed workspace. No license is needed to develop here.
-
-The pipeline is covered end to end against fixtures that mimic the official Nucleo package shape, so `bun test` validates rendering, naming, color handling, and the emitted `IconifyJSON` without a license.
+No license is needed to develop. `bun install` resolves only the codegen and dev tooling, and the tests run against fixtures that mimic the official Nucleo packages.
 
 ### How it fits together
 
-- [`packages/codegen`](./packages/codegen) is [`iconify-json-nucleo-codegen`](https://www.npmjs.com/package/iconify-json-nucleo-codegen). It renders the official React components with `react-dom/server`, normalizes each SVG with `@iconify/tools`, and emits `icons.json`. It exposes both a programmatic API and a CLI.
-- [`packages/families/*`](./packages/families) holds one thin wrapper per family. Each declares its official `nucleo-*` dependencies, runs the codegen in a postinstall, and re-exports the generated set as ESM and CommonJS.
-- [`scripts/sync-families.ts`](./scripts/sync-families.ts) regenerates every family package from the manifest. CI runs `bun run sync:check` to guarantee the committed family files match the manifest.
+- [`packages/codegen`](./packages/codegen) renders the official React components, normalizes each SVG with `@iconify/tools`, and emits `icons.json`. It ships a programmatic API and a CLI.
+- [`packages/families/*`](./packages/families) is one thin wrapper per family that runs the codegen in a postinstall and re-exports the generated set as ESM and CommonJS.
+- [`scripts/sync-families.ts`](./scripts/sync-families.ts) regenerates every family from the manifest, and CI runs `sync:check` to keep the committed files in sync.
 
-Repository tooling and scripts are TypeScript run by Bun (`eslint.config.ts`, `scripts/*.ts`). The one exception is each family's `postinstall.mjs`. It runs on the consumer's machine during an npm, pnpm, or yarn install, where only Node is guaranteed. It is plain Node ESM on purpose, so it needs no Bun, no TypeScript runtime, and no build step.
+Each family's `postinstall.mjs` is plain Node ESM, since it runs on the consumer's machine during install where only Node is guaranteed.
 
 ### Adding or changing a family
 
