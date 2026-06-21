@@ -142,15 +142,13 @@ Repository tooling and scripts are TypeScript run by Bun (`eslint.config.ts`, `s
 
 ### Versioning
 
-The codegen and all family packages are versioned in lockstep. semantic-release computes the next version from the Conventional Commits, `scripts/set-version.ts` stamps it onto the codegen package, and `bun run sync` propagates it to every family with a matching dependency pin. The family tarballs are static because the icon data is generated on install.
+The codegen and all family packages are versioned in lockstep. `bun run release` bumps the codegen version with [bumpp](https://github.com/antfu-collective/bumpp), then `bun run sync` propagates it to every family with a matching dependency pin. The family tarballs are static because the icon data is generated on install.
 
-While the project is pre 1.0, a breaking change commit still jumps straight to 1.0.0, because semantic-release does not hold breaking changes inside the 0.x range. Reserve breaking change syntax for the deliberate move to 1.0.
+While the project is pre 1.0, you choose the bump at release time, so reserve breaking changes for the deliberate move to 1.0.
 
 ### Releasing
 
-Releases run through [semantic-release](https://semantic-release.gitbook.io/). Trigger the **Release** workflow from the Actions tab. It reads the [Conventional Commits](https://www.conventionalcommits.org/) since the last release, computes the next version, writes the changelog, tags the commit, creates the GitHub Release, and publishes the codegen and every family package to the public npm registry through [trusted publishing](https://docs.npmjs.com/trusted-publishers/) (OIDC), which attaches [npm provenance](https://docs.npmjs.com/generating-provenance-statements) automatically with no stored token. The family tarballs contain no icon data.
-
-The workflow only cuts a release when there is a `feat` or `fix` commit since the last release. Commits such as `chore`, `ci`, or `docs` make it exit without publishing.
+Cut a release locally with `bun run release`. [bumpp](https://github.com/antfu-collective/bumpp) prompts for the next version, bumps the codegen package, propagates it to the families through `bun run sync`, then commits, tags `vX.Y.Z`, and pushes. The tag triggers the **Release** workflow, which generates the GitHub Release from the [Conventional Commits](https://www.conventionalcommits.org/) since the last tag with [changelogithub](https://github.com/antfu/changelogithub), and publishes the codegen and every family package to the public npm registry through [trusted publishing](https://docs.npmjs.com/trusted-publishers/) (OIDC), which attaches [npm provenance](https://docs.npmjs.com/generating-provenance-statements) automatically with no stored token. The family tarballs contain no icon data.
 
 ## ⚖️ License
 

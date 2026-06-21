@@ -1,11 +1,14 @@
 name: Release
 
-# Manual trigger only. Publishing the codegen and family packages is an
-# explicit decision rather than a side effect of pushing to main. The
-# family packages ship without icon data, the licensed SVG payload is
-# generated on the consumer's machine from the official Nucleo packages.
+# Triggered by a version tag. Cut a release locally with `bun run release`
+# (bumpp), which bumps the codegen version, propagates it to the family packages
+# via sync, commits, tags vX.Y.Z, and pushes. This workflow then generates the
+# GitHub Release from the Conventional Commits since the last tag and publishes
+# the codegen and family packages to npm with provenance.
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
 
 concurrency:
   group: release-${{ github.ref }}
@@ -15,15 +18,14 @@ jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-      id-token: write
+      contents: write # create the GitHub Release
+      id-token: write # OIDC trusted publishing and provenance
     env:
       HUSKY: 0
     steps:
       - uses: actions/checkout@v7
         with:
+          # Full history so changelogithub can diff commits since the last tag.
           fetch-depth: 0
       - uses: oven-sh/setup-bun@v2
         with:
@@ -46,7 +48,7 @@ jobs:
       - run: bun run sync:check
       - run: bun run build:codegen
       - run: bun test
-      - name: Release
+      - run: bunx changelogithub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+      - run: bun run scripts/publish.ts

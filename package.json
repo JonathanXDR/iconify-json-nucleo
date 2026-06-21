@@ -19,20 +19,19 @@
     "format:check": "prettier --check .",
     "test": "bun test",
     "typecheck": "tsc --noEmit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "release": "bumpp packages/codegen/package.json --all --commit 'chore: release v%s' --execute 'bun run sync'"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^21.0.2",
     "@commitlint/types": "^21.0.1",
     "@eslint/js": "^10.0.1",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/exec": "^7.1.0",
-    "@semantic-release/git": "^10.0.1",
     "@types/bun": "^1.3.14",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "conventional-changelog-conventionalcommits": "^9.3.1",
+    "bumpp": "^11.1.0",
+    "changelogithub": "^14.0.0",
     "eslint": "^10.5.0",
     "globals": "^17.6.0",
     "husky": "^9.1.7",
@@ -41,7 +40,6 @@
     "prettier": "^3.8.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "semantic-release": "^25.0.5",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.61.1",
     "zod": "^4.4.3"
