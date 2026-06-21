@@ -9,20 +9,21 @@ const CODEGEN = 'iconify-json-nucleo-codegen';
 
 const codegenVersion = readPackageJson(join(ROOT, 'packages', 'codegen', 'package.json')).version;
 
-// Per-family example icon for the README usage snippet. Illustrative, match each
-// to a name the generated set actually contains.
+// Per-family example icon for the README usage snippet, verified against the
+// generated sets. social-media is a best guess, its upstream package cannot
+// currently be built.
 const EXAMPLE_ICON: Record<string, string> = {
   core: 'heart-outline-24',
   ui: 'check-outline-18',
-  sharp: 'heart-24',
-  'micro-bold': 'heart-20',
-  pixel: 'heart-24',
-  flags: 'us-flag',
-  glass: 'heart-24',
-  isometric: 'rocket-24',
-  'social-media': 'github-32',
-  'credit-cards': 'visa-32',
-  arcade: 'heart-30',
+  sharp: 'star',
+  'micro-bold': 'heart',
+  pixel: 'star',
+  flags: 'switzerland',
+  glass: 'heart',
+  isometric: 'cube',
+  'social-media': 'github',
+  'credit-cards': 'visa',
+  arcade: 'joystick',
 };
 
 function packageJson(family: Family): string {

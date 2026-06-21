@@ -56,13 +56,13 @@ addCollection(icons);
 Then render icons by their `prefix:name`.
 
 ```tsx
-<Icon icon="nucleo-flags:us-flag" />
+<Icon icon="nucleo-flags:switzerland" />
 ```
 
 With [`@iconify/tailwind`](https://iconify.design/docs/usage/css/tailwind/) the JSON is read straight from `node_modules`.
 
 ```html
-<span class="icon-[nucleo-flags--us-flag]"></span>
+<span class="icon-[nucleo-flags--switzerland]"></span>
 ```
 
 Build tools that need the raw set can read it directly from the `iconify-json-nucleo-flags/icons.json` subpath export.
