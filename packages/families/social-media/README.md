@@ -16,18 +16,16 @@ npm install iconify-json-nucleo-social-media
 For pnpm, Yarn, or Bun, use `pnpm add`, `yarn add`, or `bun add` instead. A postinstall renders the official Nucleo packages into `icons.json`. Every package needs Node.js 18 or newer.
 
 > [!IMPORTANT]
-> Many package managers block a dependency's postinstall script by default. If yours does, `icons.json` is not generated and importing the package fails. Use the table below to allow this package to build, or generate the set yourself with the codegen command.
+> Current versions of npm, pnpm, Yarn, and Bun all block a dependency's postinstall script by default, so `icons.json` is not generated and importing the package fails. Use the table below to allow the postinstall script to run, or generate `icons.json` yourself with the codegen command.
 
-| Package manager                    | Runs by default    | Enable the build                                                                                                                          |
-| ---------------------------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| npm                                | Yes, until npm v12 | From v12 (expected July 2026), run `npm approve-scripts iconify-json-nucleo-social-media`                                                 |
-| pnpm 11                            | No                 | Add `iconify-json-nucleo-social-media: true` under `allowBuilds` in `pnpm-workspace.yaml`, or run `pnpm approve-builds`                   |
-| pnpm 10                            | No                 | Add `iconify-json-nucleo-social-media` to `pnpm.onlyBuiltDependencies` in `package.json`, or run `pnpm approve-builds`                    |
-| Yarn 4.14 and newer                | No                 | Add `dependenciesMeta.iconify-json-nucleo-social-media.built: true` to `package.json`                                                     |
-| Yarn Classic and Berry before 4.14 | Yes                | Nothing needed                                                                                                                            |
-| Bun                                | No                 | Add `iconify-json-nucleo-social-media` to `trustedDependencies` in `package.json`, or run `bun pm trust iconify-json-nucleo-social-media` |
+| Package manager | Allow the postinstall script                                                                                                              |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| npm 12+         | Run `npm approve-scripts iconify-json-nucleo-social-media`                                                                                |
+| pnpm 11+        | Add `iconify-json-nucleo-social-media: true` under `allowBuilds` in `pnpm-workspace.yaml`, or run `pnpm approve-builds`                   |
+| Yarn 4.14+      | Add `dependenciesMeta.iconify-json-nucleo-social-media.built: true` to `package.json`                                                     |
+| Bun             | Add `iconify-json-nucleo-social-media` to `trustedDependencies` in `package.json`, or run `bun pm trust iconify-json-nucleo-social-media` |
 
-To skip the postinstall, generate the set on demand:
+To generate `icons.json` without the postinstall, run the codegen directly:
 
 ```bash
 npx iconify-json-nucleo-codegen build --base node_modules/iconify-json-nucleo-social-media
