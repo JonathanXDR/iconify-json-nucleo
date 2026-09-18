@@ -33,7 +33,7 @@ jobs:
       # Do not add registry-url here and do not set NPM_TOKEN anywhere in this
       # workflow. Either one writes an .npmrc auth placeholder that shadows OIDC
       # trusted publishing and breaks the token-less publish.
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       # Trusted publishing (OIDC) needs npm 11.5.1 or newer. Pin to major 11 so
