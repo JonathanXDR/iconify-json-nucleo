@@ -1,6 +1,6 @@
 {
   "name": "iconify-json-nucleo-pixel",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Nucleo pixel icons as an Iconify icon set",
   "license": "MIT",
   "main": "./index.js",
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@iconify/types": "^2.0.0",
-    "iconify-json-nucleo-codegen": "^0.2.2",
+    "iconify-json-nucleo-codegen": "^0.2.3",
     "nucleo-pixel": "^1.0.0"
   },
   "publishConfig": {
