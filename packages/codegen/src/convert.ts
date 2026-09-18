@@ -43,15 +43,13 @@ export function convert(icons: RenderedIcon[], family: Family): IconifyJSON {
       }
 
       runSVGO(svg);
-      // Re-expand the path arcs that SVGO compresses, so editors and older
-      // renderers that cannot parse compact arcs still display the icons.
+      // Undo SVGO's path compression for editors and renderers that cannot parse compact arcs
       deOptimisePaths(svg);
       iconSet.fromSVG(name, svg);
     } catch (error) {
-      // Some upstream Nucleo icons emit a dangling reference, such as a
-      // clip-path whose clipPath is never defined, which @iconify/tools
-      // rejects. Skip the bad icon so a few malformed ones cannot abort the
-      // whole family.
+      // Some upstream Nucleo icons carry a dangling reference, such as a clip-path whose
+      // clipPath is never defined, which @iconify/tools rejects. Skipping keeps a handful
+      // of malformed icons from aborting the whole family.
       skipped.push(`${name} (${error instanceof Error ? error.message : String(error)})`);
     }
   }

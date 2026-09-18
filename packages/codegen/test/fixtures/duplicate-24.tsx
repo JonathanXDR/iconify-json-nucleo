@@ -3,8 +3,7 @@ import { Icon } from './icon-base';
 
 export { Icon };
 
-// IconStarFill24 and IconStarFILL24 both kebab-case to "star-fill-24", so a
-// single module produces a collision that renderModule must reject.
+// Both names kebab-case to "star-fill-24", the collision renderModule must reject
 export function IconStarFill24() {
   return createElement(Icon, { size: 24 });
 }

@@ -44,9 +44,8 @@ export default defineConfig(
   {
     files: ['**/*.test.ts'],
     rules: {
-      // bun:test types its rejection matchers (.rejects.toThrow) as returning
-      // void, yet they must be awaited so the assertion settles. Awaiting them
-      // is correct at runtime, so these type-aware checks do not apply here.
+      // bun:test types .rejects.toThrow as returning void, yet it must be awaited for the
+      // assertion to settle, which these two type-aware rules read as a mistake
       '@typescript-eslint/await-thenable': 'off',
       '@typescript-eslint/no-confusing-void-expression': 'off',
     },

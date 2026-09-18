@@ -10,9 +10,8 @@ const CODEGEN = 'iconify-json-nucleo-codegen';
 const codegenVersion = (await readPackageJson(join(ROOT, 'packages', 'codegen', 'package.json')))
   .version;
 
-// Per-family example icon for the README usage snippet, verified against the
-// generated sets. social-media is a best guess, its upstream package cannot
-// currently be built.
+// Verified against the generated sets, except social-media, whose upstream package
+// cannot currently be built
 const EXAMPLE_ICON: Record<string, string> = {
   core: 'heart-outline-24',
   ui: 'check-outline-18',
@@ -27,10 +26,8 @@ const EXAMPLE_ICON: Record<string, string> = {
   arcade: 'joystick',
 };
 
-// Files copied from templates/family into every family package, with {{token}}
-// placeholders substituted. icons.json is generated on install, so it is not
-// listed here, and package.json is generated separately since its dependencies
-// are dynamic per family.
+// icons.json is built on install, and package.json is generated below because its
+// dependencies vary per family, so neither is a template
 const TEMPLATE_FILES = [
   'index.js',
   'index.mjs',
@@ -39,8 +36,6 @@ const TEMPLATE_FILES = [
   'README.md',
 ] as const;
 
-// Replaces every {{token}} in a template with its value, throwing on a token
-// that has no matching variable so a typo fails the sync loudly.
 function render(template: string, vars: Record<string, string>): string {
   return template.replace(/\{\{(\w+)\}\}/g, (_match, token: string) => {
     const value = vars[token];
@@ -107,8 +102,7 @@ async function sync(): Promise<void> {
     })),
   );
 
-  // Bun.write creates the parent directory, so each family writes in parallel
-  // with no separate mkdir step.
+  // Bun.write creates the parent directory, so no mkdir step is needed
   await Promise.all(
     FAMILIES.map(async (family) => {
       const dir = join(FAMILIES_DIR, family.family);

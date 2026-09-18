@@ -1,10 +1,5 @@
 name: Release
 
-# Triggered by a version tag. Cut a release locally with `bun run release`
-# (bumpp), which bumps the codegen version, propagates it to the family packages
-# via sync, commits, tags vX.Y.Z, and pushes. This workflow then generates the
-# GitHub Release from the Conventional Commits since the last tag and publishes
-# the codegen and family packages to npm with provenance.
 on:
   push:
     tags:
@@ -25,20 +20,18 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          # Full history so changelogithub can diff commits since the last tag.
+          # Full history so changelogithub can read every commit since the last tag
           fetch-depth: 0
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-      # Do not add registry-url here and do not set NPM_TOKEN anywhere in this
-      # workflow. Either one writes an .npmrc auth placeholder that shadows OIDC
-      # trusted publishing and breaks the token-less publish.
+      # No registry-url here and no NPM_TOKEN anywhere in this workflow. Either one writes
+      # an .npmrc auth placeholder that shadows OIDC and breaks the token-less publish.
       - uses: actions/setup-node@v7
         with:
           node-version: 24
-      # Trusted publishing (OIDC) needs npm 11.5.1 or newer. Pin to major 11 so
-      # a future npm release cannot change the publish path under us, and print
-      # the resolved version so the logs assert it before publishing.
+      # Trusted publishing needs npm 11.5.1 or newer, pinned to major 11 so a future npm
+      # release cannot change the publish path
       - run: npm install --global npm@^11.5.1
       - run: npm --version
       - run: bun install --frozen-lockfile

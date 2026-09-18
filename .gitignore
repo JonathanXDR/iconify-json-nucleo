@@ -5,7 +5,7 @@ node_modules/
 dist/
 *.tsbuildinfo
 
-# Generated, license-gated icon data (built on the consumer's machine, never committed or published)
+# Licensed icon data, generated on the consumer's machine and never committed
 packages/families/**/icons.json
 
 # Env and secrets

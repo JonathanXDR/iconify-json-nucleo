@@ -4,9 +4,8 @@ import { readPackageJson } from './read-package-json';
 
 const root = join(import.meta.dir, '..');
 
-// Codegen publishes first so the families' "^<codegen>" pin resolves for a
-// consumer that installs right after a release. The families follow from the
-// manifest, so the publish set always matches the declared families exactly.
+// Codegen publishes first so the families' "^<codegen>" pin resolves for a consumer
+// that installs right after a release
 const targets = [
   join(root, 'packages', 'codegen'),
   ...FAMILIES.map((family) => join(root, 'packages', 'families', family.family)),
@@ -43,9 +42,8 @@ for (const cwd of targets) {
     continue;
   }
 
-  // A non-zero exit can mean the version already exists (a flaky `npm view`
-  // returned a false negative above) or a genuine error. Re-check so a real
-  // conflict is treated as success and only true failures are collected.
+  // A non-zero exit can also mean the version already exists, which the npm view above
+  // can miss, so re-check before counting this as a failure
   if (await alreadyPublished(pkg.name, pkg.version)) {
     console.log(`Skipping ${id} (already published)`);
     continue;
