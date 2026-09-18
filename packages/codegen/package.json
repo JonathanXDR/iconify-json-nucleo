@@ -22,12 +22,12 @@
     "verify:dist": "node --input-type=module -e \"import('./dist/index.js').then((m) => { if (typeof m.buildFamily !== 'function' || !Array.isArray(m.FAMILIES)) { throw new Error('built dist/index.js is missing expected exports'); } })\""
   },
   "dependencies": {
-    "@iconify/tools": "^5.0.12",
+    "@iconify/tools": "^5.0.14",
     "@iconify/types": "^2.0.0",
-    "@iconify/utils": "^3.1.3",
+    "@iconify/utils": "^3.1.7",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
-    "zod": "^4.4.3"
+    "zod": "^4.6.5"
   },
   "publishConfig": {
     "access": "public"
