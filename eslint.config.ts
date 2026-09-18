@@ -19,7 +19,11 @@ export default defineConfig(
       globals: { ...globals.node },
       parserOptions: {
         projectService: {
-          allowDefaultProject: ['eslint.config.ts', 'commitlint.config.ts'],
+          allowDefaultProject: [
+            'eslint.config.ts',
+            'commitlint.config.ts',
+            'packages/codegen/tsdown.config.ts',
+          ],
         },
         tsconfigRootDir: import.meta.dirname,
       },

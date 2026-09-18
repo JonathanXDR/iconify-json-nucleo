@@ -18,7 +18,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "bun build ./src/index.ts ./src/cli.ts --outdir dist --target node --format esm --packages external && tsc -p tsconfig.build.json && chmod +x ./dist/cli.js && bun run verify:dist",
+    "build": "tsdown && bun run verify:dist",
     "verify:dist": "node --input-type=module -e \"import('./dist/index.js').then((m) => { if (typeof m.buildFamily !== 'function' || !Array.isArray(m.FAMILIES)) { throw new Error('built dist/index.js is missing expected exports'); } })\""
   },
   "dependencies": {
@@ -51,5 +51,8 @@
   ],
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "tsdown": "^0.23.0"
   }
 }
