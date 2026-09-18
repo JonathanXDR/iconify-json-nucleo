@@ -1,28 +1,34 @@
 # iconify-json-nucleo
 
-> [!NOTE]
+> [!IMPORTANT]
 > This is an unofficial, community project. It is not affiliated with, authored by, or endorsed by Nucleo. The icons are a paid product and all rights to them belong to [Nucleo](https://nucleoapp.com). This repository ships only tooling and contains no icon data.
 
 ## Features
 
-- 🎨 **Iconify-native**: every family ships as [IconifyJSON](https://iconify.design/docs/types/iconify-json.html), the format every Iconify consumer understands.
-- 🔑 **License-gated**: nothing licensed lives in this repo or in the published tarballs.
-- 📦 **Grouped by family**: one prefix per family, with style and size in the icon name
-- 🔗 **Direct dependencies**: the official Nucleo packages are real dependencies, not a scraped copy.
-- ♻️ **Reproducible codegen**: renders the official Nucleo components to SVG and normalizes them with [`@iconify/tools`](https://iconify.design/docs/libraries/tools/).
+- 🎨 **Iconify-native:** Builds each family into [IconifyJSON](https://iconify.design/docs/types/iconify-json.html), which every consumer reads.
+- 🔑 **License-gated:** Keeps licensed icon data out of this repository and its published tarballs.
+- 📦 **Grouped by family:** Publishes one prefix per family, with style and size in the icon name.
+- 🔗 **Direct dependencies:** Depends on the official Nucleo packages rather than a scraped copy.
+- ♻️ **Reproducible codegen:** Renders the official components to SVG and normalizes them with [`@iconify/tools`](https://iconify.design/docs/libraries/tools/).
+
+## 📋 Prerequisites
+
+- A paid Nucleo license. The icons are a commercial product and this repository ships none of them.
+- `NUCLEO_LICENSE_KEY` in the environment that runs the install, locally and in CI.
+- Node.js 18 or newer for the published packages.
 
 ## 🚀 Install
 
-Set your `NUCLEO_LICENSE_KEY`, then install a family with your package manager.
+Install a family with your package manager.
 
 ```bash
 export NUCLEO_LICENSE_KEY=your-license-key
 npm install iconify-json-nucleo-core
 ```
 
-For pnpm, Yarn, or Bun, use `pnpm add`, `yarn add`, or `bun add` instead. A postinstall renders the official Nucleo packages into `icons.json` and prints `iconify-json-nucleo-core: built 512 icons for "nucleo-core"`. Every package needs Node.js 18 or newer.
+For pnpm, Yarn, or Bun, use `pnpm add`, `yarn add`, or `bun add` instead. A postinstall renders the official Nucleo packages into `icons.json` and prints `iconify-json-nucleo-core: built 512 icons for "nucleo-core"`.
 
-> [!IMPORTANT]
+> [!WARNING]
 > Current versions of npm, pnpm, Yarn, and Bun all block a dependency's postinstall script by default, so `icons.json` is not generated and importing the package fails. Use the table below to allow the postinstall script to run, or generate `icons.json` yourself with the codegen command.
 
 | Package manager | Allow the postinstall script                                                                                              |
@@ -77,30 +83,28 @@ Build tools that need the raw set can read it directly from the `iconify-json-nu
 The official Nucleo packages read `NUCLEO_LICENSE_KEY` from the environment in their preinstall and validate it against `nucleoapp.com` before any data is installed. This layer adds no license logic of its own. It simply depends on those packages, so a missing or invalid key fails the install upstream.
 
 ```bash
-# Locally
 export NUCLEO_LICENSE_KEY=your-license-key
-
-# CI or Vercel
-# Expose NUCLEO_LICENSE_KEY as an environment variable to the install step.
 ```
+
+In CI or on Vercel, expose `NUCLEO_LICENSE_KEY` to the install step instead.
 
 ## 🎨 Icons
 
 One published package per family, one Iconify prefix per package.
 
-| Package                                                                                              | Prefix                | Styles and sizes              | Color      |
-| ---------------------------------------------------------------------------------------------------- | --------------------- | ----------------------------- | ---------- |
-| [`iconify-json-nucleo-core`](https://www.npmjs.com/package/iconify-json-nucleo-core)                 | `nucleo-core`         | outline / fill, 24 / 32 / 48  | monochrome |
-| [`iconify-json-nucleo-ui`](https://www.npmjs.com/package/iconify-json-nucleo-ui)                     | `nucleo-ui`           | outline / fill / duo, 12 / 18 | monochrome |
-| [`iconify-json-nucleo-sharp`](https://www.npmjs.com/package/iconify-json-nucleo-sharp)               | `nucleo-sharp`        | 24                            | monochrome |
-| [`iconify-json-nucleo-micro-bold`](https://www.npmjs.com/package/iconify-json-nucleo-micro-bold)     | `nucleo-micro-bold`   | 20                            | monochrome |
-| [`iconify-json-nucleo-pixel`](https://www.npmjs.com/package/iconify-json-nucleo-pixel)               | `nucleo-pixel`        | 24                            | monochrome |
-| [`iconify-json-nucleo-flags`](https://www.npmjs.com/package/iconify-json-nucleo-flags)               | `nucleo-flags`        | 32                            | multicolor |
-| [`iconify-json-nucleo-glass`](https://www.npmjs.com/package/iconify-json-nucleo-glass)               | `nucleo-glass`        | 24                            | multicolor |
-| [`iconify-json-nucleo-isometric`](https://www.npmjs.com/package/iconify-json-nucleo-isometric)       | `nucleo-isometric`    | 24                            | multicolor |
-| [`iconify-json-nucleo-social-media`](https://www.npmjs.com/package/iconify-json-nucleo-social-media) | `nucleo-social-media` | 32                            | multicolor |
-| [`iconify-json-nucleo-credit-cards`](https://www.npmjs.com/package/iconify-json-nucleo-credit-cards) | `nucleo-credit-cards` | 32                            | multicolor |
-| [`iconify-json-nucleo-arcade`](https://www.npmjs.com/package/iconify-json-nucleo-arcade)             | `nucleo-arcade`       | 30                            | multicolor |
+| Package                                                                                              | Prefix                | Styles and sizes                 | Color      |
+| ---------------------------------------------------------------------------------------------------- | --------------------- | -------------------------------- | ---------- |
+| [`iconify-json-nucleo-core`](https://www.npmjs.com/package/iconify-json-nucleo-core)                 | `nucleo-core`         | outline / fill, 24 / 32 / 48     | monochrome |
+| [`iconify-json-nucleo-ui`](https://www.npmjs.com/package/iconify-json-nucleo-ui)                     | `nucleo-ui`           | outline / fill 12 and 18, duo 18 | monochrome |
+| [`iconify-json-nucleo-sharp`](https://www.npmjs.com/package/iconify-json-nucleo-sharp)               | `nucleo-sharp`        | 24                               | monochrome |
+| [`iconify-json-nucleo-micro-bold`](https://www.npmjs.com/package/iconify-json-nucleo-micro-bold)     | `nucleo-micro-bold`   | 20                               | monochrome |
+| [`iconify-json-nucleo-pixel`](https://www.npmjs.com/package/iconify-json-nucleo-pixel)               | `nucleo-pixel`        | 24                               | monochrome |
+| [`iconify-json-nucleo-flags`](https://www.npmjs.com/package/iconify-json-nucleo-flags)               | `nucleo-flags`        | 32                               | multicolor |
+| [`iconify-json-nucleo-glass`](https://www.npmjs.com/package/iconify-json-nucleo-glass)               | `nucleo-glass`        | 24                               | multicolor |
+| [`iconify-json-nucleo-isometric`](https://www.npmjs.com/package/iconify-json-nucleo-isometric)       | `nucleo-isometric`    | 24                               | multicolor |
+| [`iconify-json-nucleo-social-media`](https://www.npmjs.com/package/iconify-json-nucleo-social-media) | `nucleo-social-media` | 32                               | multicolor |
+| [`iconify-json-nucleo-credit-cards`](https://www.npmjs.com/package/iconify-json-nucleo-credit-cards) | `nucleo-credit-cards` | 32                               | multicolor |
+| [`iconify-json-nucleo-arcade`](https://www.npmjs.com/package/iconify-json-nucleo-arcade)             | `nucleo-arcade`       | 30                               | multicolor |
 
 The families, prefixes, source packages, and color modes are declared once in [`manifest.ts`](./packages/codegen/src/manifest.ts). The styles and sizes above come from the upstream Nucleo packages.
 
@@ -113,6 +117,8 @@ Names come from the Nucleo React component names, so `IconHeartOutline24` become
 Monochrome families are normalized to `currentColor` so they inherit text color, and multicolor families keep their literal colors. The mode is set per family in the manifest.
 
 ## 🛠️ Development
+
+Bun runs every task in this repository.
 
 ```bash
 bun install            # install the codegen and dev tooling
@@ -146,4 +152,4 @@ Cut a release with `bun run release`. It bumps the version, syncs the families, 
 
 The tooling and wrapper code in this repository is [MIT licensed](./LICENSE).
 
-That license covers the code only. It grants no rights to Nucleo icons, which are a paid product owned by [Nucleo](https://nucleoapp.com) and governed by the [Nucleo license](https://nucleoapp.com/license). This repository contains no Nucleo icon data and must not be used to redistribute Nucleo assets. Generating and using the icons requires your own valid Nucleo license.
+That license covers the code only. It grants no rights to Nucleo icons, which are a paid product owned by Nucleo and governed by the [Nucleo license](https://nucleoapp.com/license). This repository contains no Nucleo icon data and must not be used to redistribute Nucleo assets. Generating and using the icons requires your own valid Nucleo license.
